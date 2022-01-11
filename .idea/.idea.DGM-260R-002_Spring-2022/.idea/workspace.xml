@@ -10,6 +10,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/ScriptableObjects/CardEffect.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="ProjectId" id="23YupiY5PW19No7eEAnjzGdf75t" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -52,7 +55,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1641923529834</updated>
-      <workItem from="1641923557978" duration="815000" />
+      <workItem from="1641923557978" duration="2323000" />
     </task>
     <servers />
   </component>

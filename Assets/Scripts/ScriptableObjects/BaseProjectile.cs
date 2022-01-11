@@ -1,18 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseProjectile : MonoBehaviour
+public class BaseProjectile : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public int damage;
+    public float speed;
+    public float lifespan;
+    public bool destroysOnImpact;
 }
