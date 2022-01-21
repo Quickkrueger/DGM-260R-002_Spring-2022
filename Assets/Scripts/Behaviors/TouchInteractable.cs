@@ -23,6 +23,8 @@ public class TouchInteractable : MonoBehaviour
 
     public IEnumerator OnMouseDown()
     {
+
+        Debug.Log("Mouse down on" + gameObject.name);
         if (!mouseIsDown)
         {
             mouseIsDown = true;
@@ -37,8 +39,13 @@ public class TouchInteractable : MonoBehaviour
 
     public IEnumerator MouseDragging()
     {
-        yield return dragUpdate;
-        StartCoroutine(MouseDragging());
+        if (dragging)
+        {
+            Debug.Log("Mouse dragging on" + gameObject.name);
+            mouseDragEvent.Invoke();
+            yield return dragUpdate;
+            StartCoroutine(MouseDragging());
+        }
     }
 
     public void OnMouseUp()
