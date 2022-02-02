@@ -18,18 +18,18 @@ public class TouchInteractable : MonoBehaviour
 
     public void Start()
     {
-        draggingCheckDelay = new WaitForSecondsRealtime(1);
+        draggingCheckDelay = new WaitForSecondsRealtime(0.5f);
     }
 
     public IEnumerator OnMouseDown()
     {
 
-        Debug.Log("Mouse down on" + gameObject.name);
+        
         if (!mouseIsDown)
         {
             mouseIsDown = true;
             yield return draggingCheckDelay;
-            if (mouseIsDown)
+            if (mouseIsDown && !dragging)
             {
                 dragging = true;
                 StartCoroutine(MouseDragging());
@@ -52,15 +52,17 @@ public class TouchInteractable : MonoBehaviour
     {
         if(mouseIsDown && !dragging)
         {
+            Debug.Log("Mouse down on" + gameObject.name);
             mouseDownEvent.Invoke();
         }
         else if(mouseIsDown && dragging)
         {
             mouseUpEvent.Invoke();
         }
-        mouseIsDown = false;
-        dragging = false;
         StopAllCoroutines();
+        dragging = false;
+        mouseIsDown = false;
+        
     }
 
 }

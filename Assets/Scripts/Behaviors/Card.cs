@@ -20,12 +20,10 @@ public class Card : MonoBehaviour
             pointerOffset = new Vector3();
             pointerOffset = pointerPosition - Camera.main.WorldToScreenPoint(transform.position);
         }
-
-
-        if(pointerOffset != Vector3.zero && Camera.current != null)
+        else if(pointerOffset != Vector3.zero && Camera.main != null)
         {
 
-            Debug.Log(Camera.current);
+            Debug.Log(Camera.main);
             _rb.position = Camera.main.ScreenToWorldPoint(Input.mousePosition - pointerOffset);
         }
     }
