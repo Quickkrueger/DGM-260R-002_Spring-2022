@@ -55,7 +55,7 @@ namespace HoudiniEngineUnity
 
 */
 
-    public class HEU_TestHelpers
+    internal class HEU_TestHelpers
     {
 
 	// Testing ============
@@ -196,7 +196,8 @@ namespace HoudiniEngineUnity
 	    {
 		for (int i = 0; i < a.Count; i++)
 		{
-		    bResult &= a[i].IsEquivalentTo((T)b[i]);
+		    if (ShouldBeTested(a[i], b[i], ref result, header, subject))
+			bResult &= a[i].IsEquivalentTo((T)b[i]);
 		}
 		
 		PrintTestLogAndSetResult(bResult, ref result, header, subject, optional1, optional2, optional3);
@@ -213,7 +214,8 @@ namespace HoudiniEngineUnity
 	    {
 		for (int i = 0; i < a.Count; i++)
 		{
-		    bResult &= a[i].IsEquivalentTo((T)b[i]);
+		    if (ShouldBeTested(a[i], b[i], ref result, header, subject))
+			bResult &= a[i].IsEquivalentTo((T)b[i]);
 		}
 		
 		PrintTestLogAndSetResult(bResult, ref result, header, subject, optional1, optional2, optional3);
@@ -242,6 +244,42 @@ namespace HoudiniEngineUnity
 			    HEU_Logger.Log(aF + " " + bF);
 			}
 		    }
+		    else if (a[i].GetType() == typeof(Vector2))
+		    {
+			Vector2 aV = (Vector2)((object)a[i]);
+			Vector2 bV = (Vector2)((object)b[i]);
+			for (int j = 0; j < 2; j++)
+			{
+			     bResult &= aV[j].ApproximatelyEquals(bV[j]);
+			}
+		    }
+		    else if (a[i].GetType() == typeof(Vector3))
+		    {
+			Vector3 aV = (Vector3)((object)a[i]);
+			Vector3 bV = (Vector3)((object)b[i]);
+			for (int j = 0; j < 3; j++)
+			{
+			     bResult &= aV[j].ApproximatelyEquals(bV[j]);
+			}
+		    }
+		    else if (a[i].GetType() == typeof(Vector4))
+		    {
+			Vector4 aV = (Vector4)((object)a[i]);
+			Vector4 bV = (Vector4)((object)b[i]);
+			for (int j = 0; j < 4; j++)
+			{
+			     bResult &= aV[j].ApproximatelyEquals(bV[j]);
+			}
+		    }
+		    else if (a[i].GetType() == typeof(Matrix4x4))
+		    {
+			Matrix4x4 aV = (Matrix4x4)((object)a[i]);
+			Matrix4x4 bV = (Matrix4x4)((object)b[i]);
+			for (int j = 0; j < 16; j++)
+			{
+			     bResult &= aV[j].ApproximatelyEquals(bV[j]);
+			}
+		    }
 		    else
 		    {
 		    	bResult &= a[i].Equals(b[i]);
@@ -262,7 +300,8 @@ namespace HoudiniEngineUnity
 	    {
 		for (int i = 0; i < a.Length; i++)
 		{
-		    bResult &= a[i].Equals(b[i]);
+		    if (ShouldBeTested(a[i], b[i], ref result, header, subject))
+			bResult &= a[i].Equals(b[i]);
 		}
 
 		PrintTestLogAndSetResult(bResult, ref result, header, subject, optional1, optional2, optional3);
@@ -279,7 +318,8 @@ namespace HoudiniEngineUnity
 	    {
 		for (int i = 0; i < a.Length; i++)
 		{
-		    bResult &= a[i].IsEquivalentTo((T)b[i]);
+		    if (ShouldBeTested(a[i], b[i], ref result, header, subject))
+			bResult &= a[i].IsEquivalentTo((T)b[i]);
 		}
 
 		PrintTestLogAndSetResult(bResult, ref result, header, subject, optional1, optional2, optional3);
@@ -296,7 +336,8 @@ namespace HoudiniEngineUnity
 	    {
 		for (int i = 0; i < a.Length; i++)
 		{
-		    bResult &= a[i].IsEquivalentTo((T)b[i]);
+		    if (ShouldBeTested(a[i], b[i], ref result, header, subject))
+			bResult &= a[i].IsEquivalentTo((T)b[i]);
 		}
 
 		PrintTestLogAndSetResult(bResult, ref result, header, subject, optional1, optional2, optional3);
@@ -478,11 +519,15 @@ namespace HoudiniEngineUnity
 
 	public static bool ShouldBeTested(string a, string b, ref bool bResult, string header = "", string subject = "")
 	{
+	    
 	    if (a == b)
 	    {
 		return false;
 	    }
-	    else if (string.IsNullOrEmpty(a) && string.IsNullOrEmpty(b))
+	    else if (string.IsNullOrEmpty(a) || string.IsNullOrEmpty(b))
+	    {
+		return false;
+	    } else if (a != null && b != null && (a.Contains("C:/") || b.Contains("C:/"))) // ignore file paths
 	    {
 		return false;
 	    }
@@ -634,7 +679,7 @@ namespace HoudiniEngineUnity
         {
 	    bool bResult = true;
 
-	    string header = "HAPI_Transform";
+	    string header = "HAPI_ObjectInfo";
 
 	    //HEU_TestHelpers.AssertTrueLogEquivalent(self.hasTransformChanged, other.self.hasTransformChanged, ref bResult, header, "HasTransformChanged");
 	    //HEU_TestHelpers.AssertTrueLogEquivalent(self.haveGeosChanged, other.self.haveGeosChanged, ref bResult, header, "HasGeoChanged");
@@ -668,10 +713,12 @@ namespace HoudiniEngineUnity
 
 	    string header = "HAPI_Transform";
 
-	    HEU_TestHelpers.AssertTrueLogEquivalent(self.position, other.self.position, ref bResult, header, "position");
-	    HEU_TestHelpers.AssertTrueLogEquivalent(self.rotationQuaternion, other.self.rotationQuaternion, ref bResult, header, "rotationQuaternion");
-	    HEU_TestHelpers.AssertTrueLogEquivalent(self.scale, other.self.scale, ref bResult, header, "scale");
-	    HEU_TestHelpers.AssertTrueLogEquivalent(self.shear, other.self.shear, ref bResult, header, "shear");
+
+	    // // Skip because can be different in tests
+	    //HEU_TestHelpers.AssertTrueLogEquivalent(self.position, other.self.position, ref bResult, header, "position");
+	    //HEU_TestHelpers.AssertTrueLogEquivalent(self.rotationQuaternion, other.self.rotationQuaternion, ref bResult, header, "rotationQuaternion");
+	    //HEU_TestHelpers.AssertTrueLogEquivalent(self.scale, other.self.scale, ref bResult, header, "scale");
+	    //HEU_TestHelpers.AssertTrueLogEquivalent(self.shear, other.self.shear, ref bResult, header, "shear");
 
 	    HEU_TestHelpers.AssertTrueLogEquivalent(self.rstOrder, other.self.rstOrder, ref bResult, header, "rstOrder");
 
@@ -756,11 +803,11 @@ namespace HoudiniEngineUnity
 
 	    string header = "HAPI_TransformEuler";
 
-
-	    HEU_TestHelpers.AssertTrueLogEquivalent(self.position, other.self.position, ref bResult, header, "position");
-	    HEU_TestHelpers.AssertTrueLogEquivalent(self.rotationEuler, other.self.rotationEuler, ref bResult, header, "rotationEuler");
-	    HEU_TestHelpers.AssertTrueLogEquivalent(self.scale, other.self.scale, ref bResult, header, "scale");
-	    HEU_TestHelpers.AssertTrueLogEquivalent(self.shear, other.self.shear, ref bResult, header, "shear");
+	    // Skip because can be different in tests
+	    //HEU_TestHelpers.AssertTrueLogEquivalent(self.position, other.self.position, ref bResult, header, "position");
+	    //HEU_TestHelpers.AssertTrueLogEquivalent(self.rotationEuler, other.self.rotationEuler, ref bResult, header, "rotationEuler");
+	    //HEU_TestHelpers.AssertTrueLogEquivalent(self.scale, other.self.scale, ref bResult, header, "scale");
+	    //HEU_TestHelpers.AssertTrueLogEquivalent(self.shear, other.self.shear, ref bResult, header, "shear");
 
 	    HEU_TestHelpers.AssertTrueLogEquivalent(self.rotationOrder, other.self.rotationOrder, ref bResult, header, "rotationOrder");
 
@@ -957,7 +1004,10 @@ namespace HoudiniEngineUnity
 
 	    string header = "Material";
 
-	    HEU_TestHelpers.AssertTrueLogEquivalent(self.shader.name, other.self.shader.name, ref bResult, header, "shaderName");
+	    if (self != null && other.self != null && self.shader != null && other.self.shader != null)
+	    {
+		HEU_TestHelpers.AssertTrueLogEquivalent(self.shader.name, other.self.shader.name, ref bResult, header, "shaderName");
+	    }
 
 	    return bResult;
         }
@@ -994,8 +1044,32 @@ namespace HoudiniEngineUnity
 	    bool bResult = true;
 
 	    // Nothing too good to test - bounds can be different
-	    //string header = "Collider";
+	    string header = "Collider";
 	    //HEU_TestHelpers.AssertTrueLogEquivalent(self.bounds, other.self.bounds, ref bResult, header, "bounds");
+	    if (other.self.GetType() == typeof(BoxCollider))
+	    {
+		BoxCollider castSelf = (BoxCollider)self;
+		BoxCollider castOther = (BoxCollider)other.self;
+		HEU_TestHelpers.AssertTrueLogEquivalent(castSelf.ToTestObject(), castOther.ToTestObject(), ref bResult, header, "box");
+	    }
+	    else if (other.self.GetType() == typeof(SphereCollider))
+	    {
+		SphereCollider castSelf = (SphereCollider)self;
+		SphereCollider castOther = (SphereCollider)other.self;
+		HEU_TestHelpers.AssertTrueLogEquivalent(castSelf.ToTestObject(), castOther.ToTestObject(), ref bResult, header, "sphere");
+	    }
+	    else if (other.self.GetType() == typeof(CapsuleCollider))
+	    {
+		CapsuleCollider castSelf = (CapsuleCollider)self;
+		CapsuleCollider castOther = (CapsuleCollider)other.self;
+		HEU_TestHelpers.AssertTrueLogEquivalent(castSelf.ToTestObject(), castOther.ToTestObject(), ref bResult, header, "capsule");
+	    }
+	    else if (other.self.GetType() == typeof(MeshCollider))
+	    {
+		MeshCollider castSelf = (MeshCollider)self;
+		MeshCollider castOther = (MeshCollider)other.self;
+		HEU_TestHelpers.AssertTrueLogEquivalent(castSelf.ToTestObject(), castOther.ToTestObject(), ref bResult, header, "mesh");
+	    }
 
 	    return bResult;
         }
@@ -1016,6 +1090,150 @@ namespace HoudiniEngineUnity
 	public static List<Test_Collider> ToTestObject (this List<Collider> self)
 	{
 	    return self.ConvertAll<Test_Collider>((lod) => new Test_Collider(lod));
+	}
+    }
+
+    public class Test_BoxCollider : IEquivableWrapperClass<Test_BoxCollider>
+    {
+        public BoxCollider self;
+        public Test_BoxCollider(BoxCollider self) { this.self = self; }
+	public bool IsNull() { return self == null; }
+
+        public bool IsEquivalentTo(Test_BoxCollider other)
+        {
+	    bool bResult = true;
+
+	    string header = "BoxCollider";
+	    HEU_TestHelpers.AssertTrueLogEquivalent(self.center, other.self.center, ref bResult, header, "center");
+	    HEU_TestHelpers.AssertTrueLogEquivalent(self.center, other.self.center, ref bResult, header, "size");
+
+	    return bResult;
+        }
+    }
+    
+    public static class Test_BoxCollider_Extensions
+    {
+	public static Test_BoxCollider ToTestObject (this BoxCollider self)
+	{
+	    return new Test_BoxCollider(self);
+	}
+	
+	public static Test_BoxCollider[] ToTestObject (this BoxCollider[] self)
+	{
+	    return Array.ConvertAll<BoxCollider, Test_BoxCollider>(self, (lod) => new Test_BoxCollider(lod));
+	}
+	
+	public static List<Test_BoxCollider> ToTestObject (this List<BoxCollider> self)
+	{
+	    return self.ConvertAll<Test_BoxCollider>((lod) => new Test_BoxCollider(lod));
+	}
+    }
+
+    public class Test_SphereCollider : IEquivableWrapperClass<Test_SphereCollider>
+    {
+        public SphereCollider self;
+        public Test_SphereCollider(SphereCollider self) { this.self = self; }
+	public bool IsNull() { return self == null; }
+
+        public bool IsEquivalentTo(Test_SphereCollider other)
+        {
+	    bool bResult = true;
+
+	    string header = "SphereCollider";
+	    HEU_TestHelpers.AssertTrueLogEquivalent(self.center, other.self.center, ref bResult, header, "center");
+	    HEU_TestHelpers.AssertTrueLogEquivalent(self.radius, other.self.radius, ref bResult, header, "radius");
+
+	    return bResult;
+        }
+    }
+    
+    public static class Test_SphereCollider_Extensions
+    {
+	public static Test_SphereCollider ToTestObject (this SphereCollider self)
+	{
+	    return new Test_SphereCollider(self);
+	}
+	
+	public static Test_SphereCollider[] ToTestObject (this SphereCollider[] self)
+	{
+	    return Array.ConvertAll<SphereCollider, Test_SphereCollider>(self, (lod) => new Test_SphereCollider(lod));
+	}
+	
+	public static List<Test_SphereCollider> ToTestObject (this List<SphereCollider> self)
+	{
+	    return self.ConvertAll<Test_SphereCollider>((lod) => new Test_SphereCollider(lod));
+	}
+    }
+
+    public class Test_CapsuleCollider : IEquivableWrapperClass<Test_CapsuleCollider>
+    {
+        public CapsuleCollider self;
+        public Test_CapsuleCollider(CapsuleCollider self) { this.self = self; }
+	public bool IsNull() { return self == null; }
+
+        public bool IsEquivalentTo(Test_CapsuleCollider other)
+        {
+	    bool bResult = true;
+
+	    string header = "CapsuleCollider";
+	    HEU_TestHelpers.AssertTrueLogEquivalent(self.radius, other.self.radius, ref bResult, header, "radius");
+	    HEU_TestHelpers.AssertTrueLogEquivalent(self.height, other.self.height, ref bResult, header, "height");
+	    HEU_TestHelpers.AssertTrueLogEquivalent(self.direction, other.self.direction, ref bResult, header, "direction");
+
+	    return bResult;
+        }
+    }
+    
+    public static class Test_CapsuleCollider_Extensions
+    {
+	public static Test_CapsuleCollider ToTestObject (this CapsuleCollider self)
+	{
+	    return new Test_CapsuleCollider(self);
+	}
+	
+	public static Test_CapsuleCollider[] ToTestObject (this CapsuleCollider[] self)
+	{
+	    return Array.ConvertAll<CapsuleCollider, Test_CapsuleCollider>(self, (lod) => new Test_CapsuleCollider(lod));
+	}
+	
+	public static List<Test_CapsuleCollider> ToTestObject (this List<CapsuleCollider> self)
+	{
+	    return self.ConvertAll<Test_CapsuleCollider>((lod) => new Test_CapsuleCollider(lod));
+	}
+    }
+
+    public class Test_MeshCollider : IEquivableWrapperClass<Test_MeshCollider>
+    {
+        public MeshCollider self;
+        public Test_MeshCollider(MeshCollider self) { this.self = self; }
+	public bool IsNull() { return self == null; }
+
+        public bool IsEquivalentTo(Test_MeshCollider other)
+        {
+	    bool bResult = true;
+
+	    string header = "MeshCollider";
+	    HEU_TestHelpers.AssertTrueLogEquivalent(self.sharedMesh.ToTestObject(), other.self.sharedMesh.ToTestObject(), ref bResult, header, "sharedMesh");
+
+	    return bResult;
+        }
+    }
+    
+    public static class Test_MeshCollider_Extensions
+    {
+	public static Test_MeshCollider ToTestObject (this MeshCollider self)
+	{
+	    return new Test_MeshCollider(self);
+	}
+	
+	public static Test_MeshCollider[] ToTestObject (this MeshCollider[] self)
+	{
+	    return Array.ConvertAll<MeshCollider, Test_MeshCollider>(self, (lod) => new Test_MeshCollider(lod));
+	}
+	
+	public static List<Test_MeshCollider> ToTestObject (this List<MeshCollider> self)
+	{
+	    return self.ConvertAll<Test_MeshCollider>((lod) => new Test_MeshCollider(lod));
 	}
     }
 
@@ -1308,14 +1526,16 @@ namespace HoudiniEngineUnity
 
 	    string header = "Texture2D";
 
-	    Color[] pixelsA = self.GetPixels();
-	    Color[] pixelsB = other.self.GetPixels();
-
-	    if (pixelsA != null || pixelsB != null)
+	    if (self.isReadable && other.self.isReadable)
 	    {
-	        HEU_TestHelpers.AssertTrueLogEquivalent(pixelsA, pixelsB, ref bResult, header, "pixels");
-	    }
+		Color[] pixelsA = self.GetPixels();
+		Color[] pixelsB = other.self.GetPixels();
 
+		if (pixelsA != null || pixelsB != null)
+		{
+		    HEU_TestHelpers.AssertTrueLogEquivalent(pixelsA, pixelsB, ref bResult, header, "pixels");
+		}
+	    }
 
 	    return bResult;
         }
