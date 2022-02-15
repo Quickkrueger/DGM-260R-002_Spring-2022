@@ -1,15 +1,28 @@
+using KillerIguana.CardManager;
 using UnityEngine;
-
-
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class Card : MonoBehaviour
 {
+    BaseCard cardData;
     Vector3 pointerOffset;
     Rigidbody _rb;
+    Image _img;
+
+    public CardEvent playCard;
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        _img = GetComponent<Image>();
+    }
+    public void InitializeCard(BaseCard newCard)
+    {
+        cardData = newCard;
+        _img.material = new Material(_img.material);
+        _img.material.SetTexture("CardArt", cardData.graphic);
+
     }
 
     public void DragCard()
@@ -31,5 +44,10 @@ public class Card : MonoBehaviour
     public void ReleaseCard()
     {
         pointerOffset = Vector3.zero;
+    }
+
+    void CardPlayed()
+    {
+        playCard.Invoke(this);
     }
 }
