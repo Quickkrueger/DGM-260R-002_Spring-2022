@@ -12,7 +12,7 @@ public class Card : MonoBehaviour
 
     public CardEvent playCard;
 
-    private void Start()
+    private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _img = GetComponent<Image>();
@@ -44,10 +44,16 @@ public class Card : MonoBehaviour
     public void ReleaseCard()
     {
         pointerOffset = Vector3.zero;
+        CardPlayed();
     }
 
     void CardPlayed()
     {
-        playCard.Invoke(this);
+        playCard.Invoke(cardData);
+    }
+
+    public BaseCard GetCardData()
+    {
+        return cardData;
     }
 }

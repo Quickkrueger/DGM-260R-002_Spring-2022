@@ -12,6 +12,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/ScriptableObjects/CardEffect.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/ScriptableObjects/IntData.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="23YupiY5PW19No7eEAnjzGdf75t" />
   <component name="ProjectViewState">
@@ -57,6 +58,7 @@
       <updated>1641923529834</updated>
       <workItem from="1641923557978" duration="2323000" />
       <workItem from="1642094069262" duration="778000" />
+      <workItem from="1644945976208" duration="5587000" />
     </task>
     <servers />
   </component>

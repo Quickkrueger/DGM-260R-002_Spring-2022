@@ -1,18 +1,40 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using KillerIguana.CardManager;
+using UnityEditor.EditorTools;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Deck : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public List<BaseCard> cards;
+    public IntData handLimit;
+
+    public CardEvent DrawCardEvent;
+
+    private void Start()
     {
-        
+        Drawhand();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Drawhand()
     {
-        
+        for (int i = 0; i < handLimit.num; i++)
+        {
+            DrawCardEvent.Invoke(cards[0]);
+            BaseCard temp = cards[0];
+            cards.RemoveAt(0);
+        }
     }
+
+    public void DrawCard()
+    {
+        DrawCardEvent.Invoke(cards[0]);
+        BaseCard temp = cards[0];
+        cards.RemoveAt(0);
+    }
+
+
+
 }
