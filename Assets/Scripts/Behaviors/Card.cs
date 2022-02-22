@@ -28,7 +28,8 @@ public class Card : MonoBehaviour
 
     public void DragCard()
     {
-        Vector3 pointerPosition = Input.mousePosition;
+        
+        /* Vector3 pointerPosition = Input.mousePosition;
         if(pointerOffset == Vector3.zero)
         {
             pointerOffset = new Vector3();
@@ -37,19 +38,18 @@ public class Card : MonoBehaviour
         else if(pointerOffset != Vector3.zero && Camera.main != null)
         {
             _rb.position = Camera.main.ScreenToWorldPoint(Input.mousePosition - pointerOffset);
-        }
+        } */
     }
 
     public void ReleaseCard()
     {
         pointerOffset = Vector3.zero;
-        CardPlayed();
+        //CardPlayed();
     }
 
     void CardPlayed()
     {
         playCard.Invoke(this);
-        Debug.Log("Card Played");
     }
 
     public BaseCard GetCardData()

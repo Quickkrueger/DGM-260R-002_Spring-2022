@@ -11,8 +11,8 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/ScriptableObjects/IntData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/ScriptableObjects/CardEffect.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/ScriptableObjects/IntData.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="23YupiY5PW19No7eEAnjzGdf75t" />
   <component name="ProjectViewState">
@@ -61,6 +61,7 @@
       <workItem from="1644945976208" duration="5587000" />
       <workItem from="1645547115180" duration="1000" />
       <workItem from="1645547140869" duration="1298000" />
+      <workItem from="1645550817291" duration="1976000" />
     </task>
     <servers />
   </component>

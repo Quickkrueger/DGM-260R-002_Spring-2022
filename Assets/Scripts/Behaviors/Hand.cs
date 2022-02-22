@@ -55,7 +55,7 @@ public class Hand : MonoBehaviour
 
     private void DiscardCard(Card usedCard)
     {
-        if (VerifyCard(usedCard) != false)
+        if (VerifyCard(usedCard))
         {
             cards.Remove(usedCard);
             usedCard.transform.parent = null;

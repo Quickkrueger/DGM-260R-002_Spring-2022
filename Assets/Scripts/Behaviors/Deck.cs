@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using KillerIguana.CardManager;
+using Unity.VisualScripting.ReorderableList;
 using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.Events;
@@ -13,16 +14,14 @@ public class Deck : MonoBehaviour
 
     private void Start()
     {
-        Drawhand();
+        DrawHand();
     }
 
-    public void Drawhand()
+    public void DrawHand()
     {
         for (int i = 0; i < handLimit.num; i++)
         {
-            DrawCardEvent.Invoke(cards[0]);
-            BaseCard temp = cards[0];
-            cards.RemoveAt(0);
+            DrawCard();
         }
     }
 
