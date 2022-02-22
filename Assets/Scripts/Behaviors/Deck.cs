@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using KillerIguana.CardManager;
 using UnityEditor.EditorTools;
@@ -11,7 +9,7 @@ public class Deck : MonoBehaviour
     public List<BaseCard> cards;
     public IntData handLimit;
 
-    public CardEvent DrawCardEvent;
+    public CardDataEvent DrawCardEvent;
 
     private void Start()
     {

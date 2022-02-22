@@ -41,7 +41,6 @@ public class TouchInteractable : MonoBehaviour
     {
         if (dragging)
         {
-            Debug.Log("Mouse dragging on" + gameObject.name);
             mouseDragEvent.Invoke();
             yield return dragUpdate;
             StartCoroutine(MouseDragging());
@@ -52,12 +51,13 @@ public class TouchInteractable : MonoBehaviour
     {
         if(mouseIsDown && !dragging)
         {
-            Debug.Log("Mouse down on" + gameObject.name);
             mouseDownEvent.Invoke();
+		//Only Trigger a mouse down event if there is not a dragging event running
         }
         else if(mouseIsDown && dragging)
         {
             mouseUpEvent.Invoke();
+            Debug.Log("Mouse up on" + gameObject.name);
         }
         StopAllCoroutines();
         dragging = false;

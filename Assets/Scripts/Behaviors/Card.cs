@@ -16,6 +16,7 @@ public class Card : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         _img = GetComponent<Image>();
+        playCard = new CardEvent();
     }
     public void InitializeCard(BaseCard newCard)
     {
@@ -35,8 +36,6 @@ public class Card : MonoBehaviour
         }
         else if(pointerOffset != Vector3.zero && Camera.main != null)
         {
-
-            Debug.Log(Camera.main);
             _rb.position = Camera.main.ScreenToWorldPoint(Input.mousePosition - pointerOffset);
         }
     }
@@ -49,7 +48,8 @@ public class Card : MonoBehaviour
 
     void CardPlayed()
     {
-        playCard.Invoke(cardData);
+        playCard.Invoke(this);
+        Debug.Log("Card Played");
     }
 
     public BaseCard GetCardData()

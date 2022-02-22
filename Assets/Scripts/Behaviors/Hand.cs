@@ -26,6 +26,7 @@ public class Hand : MonoBehaviour
         cardScript.transform.SetParent(handRoot.transform);
         cardScript.transform.localPosition = Vector3.zero;
         cardScript.transform.localRotation = Quaternion.identity;
+        cardScript.playCard.AddListener(DiscardCard);
 
     }
 
@@ -37,31 +38,27 @@ public class Hand : MonoBehaviour
         reusedCard.transform.SetParent(handRoot.transform);
         reusedCard.transform.localPosition = Vector3.zero;
         reusedCard.transform.localRotation = Quaternion.identity;
-
-        
     }
 
-    public Card FindCardFromData(BaseCard cardData)
+    public bool VerifyCard(Card cardToVerify)
     {
         for (int i = 0; i < cards.Count; i++)
         {
-            if (cards[i].GetCardData() == cardData)
+            if (cards[i] == cardToVerify)
             {
-                return cards[i];
+                return true;
             }
         }
-
-        return null;
+        
+        return false;
     }
 
-    void DiscardCard(BaseCard usedCard)
+    private void DiscardCard(Card usedCard)
     {
-        Card cardToRemove = FindCardFromData(usedCard);
-        
-        if (cardToRemove != null)
+        if (VerifyCard(usedCard) != false)
         {
-            cards.Remove(cardToRemove);
-            cardToRemove.transform.parent = null;
+            cards.Remove(usedCard);
+            usedCard.transform.parent = null;
         }
 
     }
