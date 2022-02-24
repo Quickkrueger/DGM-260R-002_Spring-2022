@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class DragArrow : MonoBehaviour
 {
-    private Vector3 origin;
+    public Vector3 origin;
     private Vector3 target;
     public float baseHeadScale = 0.4f;
     private float relativeHeadScale;
@@ -25,22 +25,26 @@ public class DragArrow : MonoBehaviour
     public void UpdateArrow(Vector3 newTarget)
     {
         target = newTarget;
+        CalculateArrow();
     }
 
     private void CalculateArrow()
     {
+        
+        relativeHeadScale = (float)(baseHeadScale / Vector3.Distance(origin, target));
+        
         _lineRenderer.widthCurve = new AnimationCurve(
             new Keyframe(0, 0.4f),
-            new Keyframe(0.999f - baseHeadScale, 0.4f),
-            new Keyframe(1 - baseHeadScale, 1f),
+            new Keyframe(0.999f - relativeHeadScale, 0.4f),
+            new Keyframe(1 - relativeHeadScale, 1f),
             new Keyframe(1f, 0f)
             );
         
         _lineRenderer.SetPositions(new Vector3[]
         {
             origin,
-            Vector3.Lerp(origin, target, 0.999f - baseHeadScale),
-            Vector3.Lerp(origin, target, 1f - baseHeadScale),
+            Vector3.Lerp(origin, target, 0.999f - relativeHeadScale),
+            Vector3.Lerp(origin, target, 1f - relativeHeadScale),
             target
         });
     }

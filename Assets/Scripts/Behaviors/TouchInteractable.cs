@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class TouchInteractable : MonoBehaviour
 {
@@ -10,20 +12,37 @@ public class TouchInteractable : MonoBehaviour
     WaitForFixedUpdate dragUpdate;
     bool dragging = false;
     bool mouseIsDown = false;
-
     public UnityEvent mouseDownEvent;
     public UnityEvent mouseUpEvent;
     public UnityEvent mouseDragEvent;
+    private EventTrigger eventTrigger;
 
 
     public void Start()
     {
+        eventTrigger = gameObject.AddComponent<EventTrigger>();
+        
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerDown;
+        entry.callback.AddListener((data) => MouseDownCaller((PointerEventData) data));
+        eventTrigger.triggers.Add(entry);
+        
+        entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerUp;
+        entry.callback.AddListener((data) => MouseUpTrigger((PointerEventData)data));
+        eventTrigger.triggers.Add(entry);
+        
         draggingCheckDelay = new WaitForSecondsRealtime(0.5f);
     }
 
-    public IEnumerator OnMouseDown()
+    public void MouseDownCaller(PointerEventData pointerEventData)
     {
+        StartCoroutine(MouseDownTrigger());
+    }
 
+    public IEnumerator MouseDownTrigger()
+    {
+        Debug.Log("Mouse down");
         
         if (!mouseIsDown)
         {
@@ -47,8 +66,9 @@ public class TouchInteractable : MonoBehaviour
         }
     }
 
-    public void OnMouseUp()
+    public void MouseUpTrigger(PointerEventData pointerEventData)
     {
+        Debug.Log("Mouse up");
         if(mouseIsDown && !dragging)
         {
             mouseDownEvent.Invoke();

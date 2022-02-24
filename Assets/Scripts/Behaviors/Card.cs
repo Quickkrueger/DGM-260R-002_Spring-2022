@@ -9,6 +9,8 @@ public class Card : MonoBehaviour
     Vector3 pointerOffset;
     Rigidbody _rb;
     Image _img;
+    public GameObject dragArrowPrefab;
+    private DragArrow dragArrow;
 
     public CardEvent playCard;
 
@@ -28,7 +30,15 @@ public class Card : MonoBehaviour
 
     public void DragCard()
     {
-        
+        if (dragArrow != null)
+        {
+            dragArrow.UpdateArrow(Input.mousePosition);
+        }
+        else
+        {
+            dragArrow = Instantiate(dragArrowPrefab).GetComponent<DragArrow>();
+            dragArrow.InitializeArrow(transform.position);
+        }
         /* Vector3 pointerPosition = Input.mousePosition;
         if(pointerOffset == Vector3.zero)
         {
@@ -43,6 +53,8 @@ public class Card : MonoBehaviour
 
     public void ReleaseCard()
     {
+        dragArrow.DestroyArrow();
+        dragArrow = null;
         pointerOffset = Vector3.zero;
         //CardPlayed();
     }
