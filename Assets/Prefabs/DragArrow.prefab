@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   origin: {x: 0, y: 0, z: 0}
-  baseHeadScale: 0.4
+  baseHeadScale: 0.1
 --- !u!120 &2965607090563529656
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -66,7 +66,7 @@ LineRenderer:
   m_RenderingLayerMask: 2147483647
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 8ea5add7eb24ab2468e0dda8bbfafe9b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -140,7 +140,7 @@ LineRenderer:
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
-    numCapVertices: 0
+    numCapVertices: 5
     alignment: 0
     textureMode: 0
     shadowBias: 0.5

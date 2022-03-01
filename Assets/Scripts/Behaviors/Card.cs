@@ -31,14 +31,22 @@ public class Card : MonoBehaviour
 
     public void DragCard()
     {
+        Camera cam = Camera.main;
         if (dragArrow != null)
         {
-            dragArrow.UpdateArrow(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            Vector3 screenSpaceTarget = new Vector3(Input.mousePosition.x, Input.mousePosition.y, cam.nearClipPlane + 0.6f);
+            Vector3 worldSpaceTarget = cam.ScreenToWorldPoint(screenSpaceTarget);
+            dragArrow.UpdateArrow(worldSpaceTarget);
         }
         else
         {
             dragArrow = Instantiate(dragArrowPrefab).GetComponent<DragArrow>();
-            dragArrow.InitializeArrow(transform.position);
+
+            Vector3 screenSpaceOrigin = cam.WorldToScreenPoint(transform.position);
+            screenSpaceOrigin.z = cam.nearClipPlane + 0.6f;
+            Vector3 worldSpaceOrigin = cam.ScreenToWorldPoint(screenSpaceOrigin);
+            
+            dragArrow.InitializeArrow(worldSpaceOrigin);
         }
         /* Vector3 pointerPosition = Input.mousePosition;
         if(pointerOffset == Vector3.zero)

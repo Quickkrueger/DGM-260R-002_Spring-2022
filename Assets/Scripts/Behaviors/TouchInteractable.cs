@@ -66,10 +66,8 @@ public class TouchInteractable : MonoBehaviour
 
     public void MouseUpTrigger(PointerEventData pointerEventData)
     {
-        dragging = false;
-        mouseIsDown = false;
         StopAllCoroutines();
-        
+        Debug.Log("Mouse up");
         if(mouseIsDown && !dragging)
         {
             mouseDownEvent.Invoke();
@@ -79,6 +77,9 @@ public class TouchInteractable : MonoBehaviour
         {
             mouseUpEvent.Invoke();
         }
+        
+        dragging = false;
+        mouseIsDown = false;
         
     }
 

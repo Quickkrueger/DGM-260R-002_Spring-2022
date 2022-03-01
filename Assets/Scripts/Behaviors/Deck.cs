@@ -1,9 +1,6 @@
 using System.Collections.Generic;
 using KillerIguana.CardManager;
-using Unity.VisualScripting.ReorderableList;
-using UnityEditor.EditorTools;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class Deck : MonoBehaviour
 {
