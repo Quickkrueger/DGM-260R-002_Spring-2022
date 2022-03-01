@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   origin: {x: 0, y: 0, z: 0}
-  baseHeadScale: 0.4
+  baseHeadScale: 0.1
 --- !u!120 &2965607090563529656
 LineRenderer:
   m_ObjectHideFlags: 0

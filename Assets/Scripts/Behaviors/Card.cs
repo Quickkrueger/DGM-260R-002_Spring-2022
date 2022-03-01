@@ -18,6 +18,7 @@ public class Card : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         _img = GetComponent<Image>();
+        dragArrow = null;
         playCard = new CardEvent();
     }
     public void InitializeCard(BaseCard newCard)
@@ -32,7 +33,7 @@ public class Card : MonoBehaviour
     {
         if (dragArrow != null)
         {
-            dragArrow.UpdateArrow(Input.mousePosition);
+            dragArrow.UpdateArrow(Camera.main.ScreenToWorldPoint(Input.mousePosition));
         }
         else
         {
