@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   origin: {x: 0, y: 0, z: 0}
-  baseHeadScale: 0.1
+  baseHeadScale: 0.4
 --- !u!120 &2965607090563529656
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -89,6 +89,8 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
@@ -143,5 +145,5 @@ LineRenderer:
     textureMode: 0
     shadowBias: 0.5
     generateLightingData: 0
-  m_UseWorldSpace: 0
+  m_UseWorldSpace: 1
   m_Loop: 0

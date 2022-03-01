@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -68,7 +66,10 @@ public class TouchInteractable : MonoBehaviour
 
     public void MouseUpTrigger(PointerEventData pointerEventData)
     {
-        Debug.Log("Mouse up");
+        dragging = false;
+        mouseIsDown = false;
+        StopAllCoroutines();
+        
         if(mouseIsDown && !dragging)
         {
             mouseDownEvent.Invoke();
@@ -77,11 +78,7 @@ public class TouchInteractable : MonoBehaviour
         else if(mouseIsDown && dragging)
         {
             mouseUpEvent.Invoke();
-            Debug.Log("Mouse up on" + gameObject.name);
         }
-        StopAllCoroutines();
-        dragging = false;
-        mouseIsDown = false;
         
     }
 

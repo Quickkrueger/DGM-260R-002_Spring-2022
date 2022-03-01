@@ -9,6 +9,7 @@ public class DragArrow : MonoBehaviour
     private Vector3 target;
     public float baseHeadScale = 0.4f;
     private float relativeHeadScale;
+    private float mouseYOffset;
     private LineRenderer _lineRenderer;
 
     private void Awake()
@@ -19,12 +20,14 @@ public class DragArrow : MonoBehaviour
     public void InitializeArrow(Vector3 newOrigin)
     {
         origin = newOrigin;
-        
+        mouseYOffset = Vector3.Distance(Camera.main.transform.position, origin);
+
     }
 
     public void UpdateArrow(Vector3 newTarget)
     {
-        target = newTarget;
+        target = newTarget + Camera.main.transform.forward * mouseYOffset;
+        Debug.Log((target));
         CalculateArrow();
     }
 
