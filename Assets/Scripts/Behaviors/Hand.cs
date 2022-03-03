@@ -7,13 +7,16 @@ public class Hand : MonoBehaviour
 {
     public GameObject cardPrefab;
     List<Card> cards;
+    private RectTransform _handRect;
     public GameObject handRoot;
+    private int currentHandSize = 0;
 
     public IntData baseHandSize;
 
     private void Awake()
     {
         cards = new List<Card>();
+        _handRect = GetComponent<RectTransform>();
     }
 
     // Start is called before the first frame update
@@ -27,7 +30,8 @@ public class Hand : MonoBehaviour
         cardScript.transform.localPosition = Vector3.zero;
         cardScript.transform.localRotation = Quaternion.identity;
         cardScript.playCard.AddListener(DiscardCard);
-
+        currentHandSize++;
+        SpaceOutCards();
     }
 
     public void DrawCard(Card reusedCard)
@@ -38,6 +42,8 @@ public class Hand : MonoBehaviour
         reusedCard.transform.SetParent(handRoot.transform);
         reusedCard.transform.localPosition = Vector3.zero;
         reusedCard.transform.localRotation = Quaternion.identity;
+        currentHandSize++;
+        SpaceOutCards();
     }
 
     public bool VerifyCard(Card cardToVerify)
@@ -53,12 +59,25 @@ public class Hand : MonoBehaviour
         return false;
     }
 
+    public void SpaceOutCards()
+    {
+        float spacing = (float) Screen.width / (float) currentHandSize;
+        
+        for (int i = 0; i < cards.Count; i++)
+        {
+            float xOffset = (spacing * i) - (Screen.width / 2);
+            
+            cards[i].InitializeMove(xOffset);
+        }
+    }
+
     private void DiscardCard(Card usedCard)
     {
         if (VerifyCard(usedCard))
         {
             cards.Remove(usedCard);
             usedCard.transform.parent = null;
+            currentHandSize--;
         }
 
     }

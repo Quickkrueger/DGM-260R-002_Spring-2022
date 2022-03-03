@@ -1,3 +1,4 @@
+using System.Collections;
 using KillerIguana.CardManager;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,6 +10,7 @@ public class Card : MonoBehaviour
     Vector3 pointerOffset;
     Rigidbody _rb;
     Image _img;
+    private RectTransform _rectTransform;
     public GameObject dragArrowPrefab;
     private DragArrow dragArrow;
 
@@ -18,6 +20,7 @@ public class Card : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         _img = GetComponent<Image>();
+        _rectTransform = GetComponent<RectTransform>();
         dragArrow = null;
         playCard = new CardEvent();
     }
@@ -26,7 +29,40 @@ public class Card : MonoBehaviour
         cardData = newCard;
         _img.material = new Material(_img.material);
         _img.material.SetTexture("CardArt", cardData.graphic);
+    }
 
+    public void InitializeMove(float xOffset)
+    {
+        Vector3 localDestination = _rectTransform.localPosition + (Vector3.right * xOffset);
+        Vector3 destination = _rectTransform.TransformPoint(localDestination);
+        Debug.Log("Local Destination: " + localDestination);
+        Debug.Log("Destination: " + destination);
+        
+        WaitForSeconds moveDelay = new WaitForSeconds(1);
+
+        StartCoroutine(MoveToNewPosition(moveDelay, destination));
+    }
+
+    public IEnumerator MoveToNewPosition(WaitForSeconds moveDelay, Vector3 destination)
+    {
+        
+        _rb.MovePosition(destination * Time.deltaTime * 0.01f);
+        
+        yield return moveDelay;
+        if (!ApproximatelyVector3(destination, _rectTransform.position))
+        {
+            StartCoroutine(MoveToNewPosition(moveDelay, destination));
+        }
+    }
+
+    public bool ApproximatelyVector3(Vector3 destination, Vector3 currentLocation)
+    {
+        if (Mathf.Approximately(destination.x, currentLocation.x) && Mathf.Approximately(destination.y, currentLocation.y) && Mathf.Approximately(destination.y, currentLocation.y))
+        {
+            return true;
+        }
+
+        return false;
     }
 
     public void DragCard()

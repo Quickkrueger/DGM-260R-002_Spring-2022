@@ -40,7 +40,6 @@ public class TouchInteractable : MonoBehaviour
 
     public IEnumerator MouseDownTrigger()
     {
-        Debug.Log("Mouse down");
         
         if (!mouseIsDown)
         {
@@ -67,7 +66,6 @@ public class TouchInteractable : MonoBehaviour
     public void MouseUpTrigger(PointerEventData pointerEventData)
     {
         StopAllCoroutines();
-        Debug.Log("Mouse up");
         if(mouseIsDown && !dragging)
         {
             mouseDownEvent.Invoke();

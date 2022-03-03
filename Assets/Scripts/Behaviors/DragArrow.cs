@@ -24,7 +24,6 @@ public class DragArrow : MonoBehaviour
 
     public void UpdateArrow(Vector3 newTarget)
     {
-        Debug.Log(Input.mousePosition);
         target = newTarget;
         CalculateArrow();
     }
