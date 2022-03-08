@@ -11,9 +11,10 @@ public class Card : MonoBehaviour
     Rigidbody _rb;
     Image _img;
     private RectTransform _rectTransform;
-    public GameObject dragArrowPrefab;
     private DragArrow dragArrow;
+    private Coroutine cardMoveRoutine;
 
+    public GameObject dragArrowPrefab;
     public CardEvent playCard;
 
     private void Awake()
@@ -33,25 +34,31 @@ public class Card : MonoBehaviour
 
     public void InitializeMove(float xOffset)
     {
-        Vector3 localDestination = _rectTransform.localPosition + (Vector3.right * xOffset);
-        Vector3 destination = _rectTransform.TransformPoint(localDestination);
-        Debug.Log("Local Destination: " + localDestination);
+        Vector3 startLocation = transform.position;
+        Vector3 destination = _rectTransform.localPosition + (Vector3.right * xOffset);
+        //Vector3 destination = _rectTransform.TransformPoint(localDestination);
+        //Debug.Log("Local Destination: " + localDestination);
         Debug.Log("Destination: " + destination);
         
-        WaitForSeconds moveDelay = new WaitForSeconds(1);
+        WaitForSeconds moveDelay = new WaitForSeconds(0.033f);
+        
+        if(cardMoveRoutine != null)
+        {
+            StopCoroutine(cardMoveRoutine);
+        }
 
-        StartCoroutine(MoveToNewPosition(moveDelay, destination));
+        cardMoveRoutine = StartCoroutine(MoveToNewPosition(moveDelay, destination, startLocation, 1));
     }
 
-    public IEnumerator MoveToNewPosition(WaitForSeconds moveDelay, Vector3 destination)
+    public IEnumerator MoveToNewPosition(WaitForSeconds moveDelay, Vector3 destination, Vector3 startLocation, float interval)
     {
         
-        _rb.MovePosition(destination * Time.deltaTime * 0.01f);
+        _rb.MovePosition(startLocation + destination * Time.deltaTime * 0.01f * interval);
         
         yield return moveDelay;
         if (!ApproximatelyVector3(destination, _rectTransform.position))
         {
-            StartCoroutine(MoveToNewPosition(moveDelay, destination));
+            cardMoveRoutine = StartCoroutine(MoveToNewPosition(moveDelay, destination, startLocation, interval++));
         }
     }
 

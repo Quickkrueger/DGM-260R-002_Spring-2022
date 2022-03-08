@@ -31,6 +31,7 @@ public class Hand : MonoBehaviour
         cardScript.transform.localRotation = Quaternion.identity;
         cardScript.playCard.AddListener(DiscardCard);
         currentHandSize++;
+
         SpaceOutCards();
     }
 
@@ -43,6 +44,7 @@ public class Hand : MonoBehaviour
         reusedCard.transform.localPosition = Vector3.zero;
         reusedCard.transform.localRotation = Quaternion.identity;
         currentHandSize++;
+
         SpaceOutCards();
     }
 
