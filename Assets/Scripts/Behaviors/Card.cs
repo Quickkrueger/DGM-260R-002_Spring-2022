@@ -16,7 +16,7 @@ public class Card : MonoBehaviour
 
     public GameObject dragArrowPrefab;
     public CardEvent playCard;
-
+    public float moveSpeed;
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
@@ -35,12 +35,13 @@ public class Card : MonoBehaviour
     public void InitializeMove(float xOffset)
     {
         Vector3 startLocation = transform.position;
-        Vector3 destination = _rectTransform.localPosition + (Vector3.right * xOffset);
+        Vector3 destination = transform.parent.position + (Vector3.right * xOffset);
+
         //Vector3 destination = _rectTransform.TransformPoint(localDestination);
         //Debug.Log("Local Destination: " + localDestination);
-        Debug.Log("Destination: " + destination);
+        //Debug.Log("Destination: " + destination);
         
-        WaitForSeconds moveDelay = new WaitForSeconds(0.033f);
+        WaitForSeconds moveDelay = new WaitForSeconds(0.011f);
         
         if(cardMoveRoutine != null)
         {
@@ -52,11 +53,22 @@ public class Card : MonoBehaviour
 
     public IEnumerator MoveToNewPosition(WaitForSeconds moveDelay, Vector3 destination, Vector3 startLocation, float interval)
     {
+        float moveTo = destination.x - startLocation.x;
         
-        _rb.MovePosition(startLocation + destination * Time.deltaTime * 0.01f * interval);
-        
+        if(moveTo > 0)
+        {
+            transform.Translate(moveSpeed * Time.deltaTime * Vector3.right * Mathf.Max(moveTo, 0.5f));
+        }
+        else if(moveTo < 0)
+        {
+            transform.Translate(moveSpeed * Time.deltaTime * Vector3.right * Mathf.Min(moveTo, -0.5f));
+        }
+
         yield return moveDelay;
-        if (!ApproximatelyVector3(destination, _rectTransform.position))
+
+        startLocation = _rectTransform.position;
+
+        if (!ApproximatelyVector3(Camera.main.WorldToScreenPoint(destination), Camera.main.WorldToScreenPoint(_rectTransform.position)))
         {
             cardMoveRoutine = StartCoroutine(MoveToNewPosition(moveDelay, destination, startLocation, interval++));
         }
@@ -64,7 +76,7 @@ public class Card : MonoBehaviour
 
     public bool ApproximatelyVector3(Vector3 destination, Vector3 currentLocation)
     {
-        if (Mathf.Approximately(destination.x, currentLocation.x) && Mathf.Approximately(destination.y, currentLocation.y) && Mathf.Approximately(destination.y, currentLocation.y))
+        if (Mathf.Approximately(Mathf.Round(destination.x), Mathf.Round(currentLocation.x)))
         {
             return true;
         }

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Test2
   m_EditorClassIdentifier: 
   cost: 0
-  graphic: {fileID: 2800000, guid: 6e91258808ae6794f97e1c488df6693f, type: 3}
+  graphic: {fileID: 2800000, guid: 53f7ae0c080d2834ab88b01e73592b53, type: 3}
   cardType: 0
   cardEffect: {fileID: 0}

@@ -63,13 +63,15 @@ public class Hand : MonoBehaviour
 
     public void SpaceOutCards()
     {
-        float spacing = (float) Screen.width / (float) currentHandSize;
+        float spacing = (float)Screen.width / (float)(currentHandSize * 1.5f);
         
         for (int i = 0; i < cards.Count; i++)
         {
-            float xOffset = (spacing * i) - (Screen.width / 2);
+            float xOffset = (spacing * (i + currentHandSize / 2));
+
+            Vector3 xOffsetWorld = Camera.main.ScreenToWorldPoint(new Vector3(xOffset, 0, 1));
             
-            cards[i].InitializeMove(xOffset);
+            cards[i].InitializeMove(xOffsetWorld.x);
         }
     }
 

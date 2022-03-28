@@ -137,6 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dragArrowPrefab: {fileID: 2965607090563529661, guid: 19af022273f7dd74da4d403f228ddccc, type: 3}
+  moveSpeed: 1
 --- !u!65 &3435727258326093948
 BoxCollider:
   m_ObjectHideFlags: 0
