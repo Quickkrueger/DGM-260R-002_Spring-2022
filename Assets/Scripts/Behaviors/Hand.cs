@@ -2,18 +2,21 @@ using System;
 using KillerIguana.CardManager;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 public class Hand : MonoBehaviour
 {
     public GameObject cardPrefab;
     public DeckData handData;
+    public GameObject handRoot;
+    public IntData baseHandSize;
+    public CardDataEvent cardInfoEvent;
 
     List<Card> cards;
     private RectTransform _handRect;
-    public GameObject handRoot;
     private int currentHandSize = 0;
 
-    public IntData baseHandSize;
+    
 
     private void Awake()
     {
@@ -33,6 +36,7 @@ public class Hand : MonoBehaviour
         cardScript.transform.SetParent(handRoot.transform);
         cardScript.transform.position = deckTransform.position;
         cardScript.transform.localRotation = Quaternion.identity;
+        cardScript.transform.localScale = Vector3.one * 0.4f;
         cardScript.playCard.AddListener(DiscardCard);
         currentHandSize++;
 
@@ -89,4 +93,11 @@ public class Hand : MonoBehaviour
         }
 
     }
+
+    public void SendDataToPreview(BaseCard cardData)
+    {
+        cardInfoEvent.Invoke(cardData);
+    }
+
+
 }

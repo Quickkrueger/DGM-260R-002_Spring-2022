@@ -7,7 +7,7 @@ public class Deck : MonoBehaviour
     public DeckData deckData;
     public IntData handLimit;
 
-    public CardDataEvent DrawCardEvent;
+    public TransformEvent DrawCardEvent;
 
     private void Start()
     {

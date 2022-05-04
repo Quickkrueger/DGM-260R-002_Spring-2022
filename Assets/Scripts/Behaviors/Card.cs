@@ -94,6 +94,11 @@ public class Card : MonoBehaviour
         return false;
     }
 
+    public void ClickCard()
+    {
+
+    }
+
     public void DragCard()
     {
         Camera cam = Camera.main;
