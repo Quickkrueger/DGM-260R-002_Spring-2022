@@ -6,6 +6,8 @@ using System.Collections.Generic;
 public class Hand : MonoBehaviour
 {
     public GameObject cardPrefab;
+    public DeckData handData;
+
     List<Card> cards;
     private RectTransform _handRect;
     public GameObject handRoot;
@@ -20,14 +22,16 @@ public class Hand : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    public void DrawCard(BaseCard newCard)
+    public void DrawCard(Transform deckTransform)
     {
         GameObject cardObject = Instantiate(cardPrefab);
+        BaseCard newCard = handData.HandCardFromIndex(handData.GetHandCount() - 1);
+
         Card cardScript = cardObject.GetComponent<Card>();
         cardScript.InitializeCard(newCard);
         cards.Add(cardScript);
         cardScript.transform.SetParent(handRoot.transform);
-        cardScript.transform.localPosition = Vector3.zero;
+        cardScript.transform.position = deckTransform.position;
         cardScript.transform.localRotation = Quaternion.identity;
         cardScript.playCard.AddListener(DiscardCard);
         currentHandSize++;
@@ -63,11 +67,11 @@ public class Hand : MonoBehaviour
 
     public void SpaceOutCards()
     {
-        float spacing = (float)Screen.width / (float)(currentHandSize * 1.5f);
+        float spacing = (float)Screen.width / (float)(currentHandSize + 1);
         
         for (int i = 0; i < cards.Count; i++)
         {
-            float xOffset = (spacing * (i + currentHandSize / 2));
+            float xOffset = (spacing * (float)(i + 1));
 
             Vector3 xOffsetWorld = Camera.main.ScreenToWorldPoint(new Vector3(xOffset, 0, 1));
             

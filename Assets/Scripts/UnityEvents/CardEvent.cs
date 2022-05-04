@@ -3,7 +3,7 @@ using UnityEngine.Events;
 namespace KillerIguana.CardManager
 {
     [System.Serializable]
-    public class CardDataEvent : UnityEvent<BaseCard>
+    public class CardDataEvent : UnityEvent<Transform>
     {
 
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Deck : MonoBehaviour
 {
-    public List<BaseCard> cards;
+    public DeckData deckData;
     public IntData handLimit;
 
     public CardDataEvent DrawCardEvent;
@@ -24,9 +24,12 @@ public class Deck : MonoBehaviour
 
     public void DrawCard()
     {
-        DrawCardEvent.Invoke(cards[0]);
-        BaseCard temp = cards[0];
-        cards.RemoveAt(0);
+        if (deckData.GetDeckCount() > 0)
+        {
+            deckData.DeckToHand(0);
+            DrawCardEvent.Invoke(transform);
+        }
+        
     }
 
 

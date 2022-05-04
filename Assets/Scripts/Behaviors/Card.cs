@@ -35,7 +35,7 @@ public class Card : MonoBehaviour
     public void InitializeMove(float xOffset)
     {
         Vector3 startLocation = transform.position;
-        Vector3 destination = transform.parent.position + (Vector3.right * xOffset);
+        Vector3 destination = new Vector3(xOffset, transform.parent.position.y, transform.parent.position.z);
 
         //Vector3 destination = _rectTransform.TransformPoint(localDestination);
         //Debug.Log("Local Destination: " + localDestination);
@@ -53,15 +53,25 @@ public class Card : MonoBehaviour
 
     public IEnumerator MoveToNewPosition(WaitForSeconds moveDelay, Vector3 destination, Vector3 startLocation, float interval)
     {
-        float moveTo = destination.x - startLocation.x;
-        
-        if(moveTo > 0)
+        float moveToX = destination.x - startLocation.x;
+        float moveToY = destination.y - startLocation.y;
+
+        if (moveToX > 0)
         {
-            transform.Translate(moveSpeed * Time.deltaTime * Vector3.right * Mathf.Max(moveTo, 0.5f));
+            transform.Translate(moveSpeed * Time.deltaTime * Vector3.right * Mathf.Sqrt(Mathf.Abs(moveToX)));
         }
-        else if(moveTo < 0)
+        else if(moveToX < 0)
         {
-            transform.Translate(moveSpeed * Time.deltaTime * Vector3.right * Mathf.Min(moveTo, -0.5f));
+            transform.Translate(moveSpeed * Time.deltaTime * Vector3.right * Mathf.Sqrt(Mathf.Abs(moveToX)) * -1);
+        }
+
+        if (moveToY > 0)
+        {
+            transform.Translate(moveSpeed * Time.deltaTime * Vector3.up * Mathf.Sqrt(moveToY));
+        }
+        else if (moveToY < 0)
+        {
+            transform.Translate(moveSpeed * Time.deltaTime * Vector3.up * Mathf.Sqrt(Mathf.Abs(moveToY)) * -1);
         }
 
         yield return moveDelay;
@@ -76,7 +86,7 @@ public class Card : MonoBehaviour
 
     public bool ApproximatelyVector3(Vector3 destination, Vector3 currentLocation)
     {
-        if (Mathf.Approximately(Mathf.Round(destination.x), Mathf.Round(currentLocation.x)))
+        if (Mathf.Approximately(Mathf.Round(destination.x), Mathf.Round(currentLocation.x)) && Mathf.Approximately(Mathf.Round(destination.y), Mathf.Round(currentLocation.y)))
         {
             return true;
         }

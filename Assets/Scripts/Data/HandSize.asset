@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4a20b854bba2ef48acc1f2786b29ad8, type: 3}
   m_Name: HandSize
   m_EditorClassIdentifier: 
-  num: 7
+  num: 0
