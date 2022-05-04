@@ -9,12 +9,13 @@ public class Card : MonoBehaviour
     BaseCard cardData;
     Vector3 pointerOffset;
     Rigidbody _rb;
-    Image _img;
+    private Image _img;
     private RectTransform _rectTransform;
     private DragArrow dragArrow;
     private Coroutine cardMoveRoutine;
 
     public GameObject dragArrowPrefab;
+    public Text cardText;
     public CardEvent playCard;
     public float moveSpeed;
     private void Awake()
@@ -30,6 +31,9 @@ public class Card : MonoBehaviour
         cardData = newCard;
         _img.material = new Material(_img.material);
         _img.material.SetTexture("CardArt", cardData.graphic);
+        _img.material.SetFloat("Cutoff_Height", 30f);
+
+        cardText.text = cardData.cardDescription;
     }
 
     public void InitializeMove(float xOffset)
@@ -96,7 +100,8 @@ public class Card : MonoBehaviour
 
     public void ClickCard()
     {
-
+        Hand parentHand = GetComponentInParent<Hand>();
+        parentHand.SendDataToPreview(cardData);
     }
 
     public void DragCard()
@@ -146,5 +151,25 @@ public class Card : MonoBehaviour
     public BaseCard GetCardData()
     {
         return cardData;
+    }
+
+    public bool DestroySelf()
+    {
+        WaitForSeconds secondsDelay = new WaitForSeconds(0.01f);
+        StartCoroutine(Dissolve(secondsDelay));
+        return true;
+    }
+
+    IEnumerator Dissolve(WaitForSeconds waitSeconds)
+    {
+        cardText.enabled = false;
+        for (int i = 0; i < 150; i++)
+        {
+            float temp = _img.material.GetFloat("Cutoff_Height");
+            _img.material.SetFloat("Cutoff_Height", temp - 0.2f);
+            yield return waitSeconds;
+        }
+
+        Destroy(gameObject);
     }
 }

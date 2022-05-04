@@ -8,6 +8,8 @@ namespace KillerIguana.CardManager
     {
         public int cost;
         public Texture graphic;
+        [TextArea(15, 20)]
+        public string cardDescription;
         public CardType cardType;
         public CardEffect cardEffect;
 

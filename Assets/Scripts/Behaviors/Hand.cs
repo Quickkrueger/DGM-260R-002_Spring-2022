@@ -3,6 +3,7 @@ using KillerIguana.CardManager;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Events;
+using System.Collections;
 
 public class Hand : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class Hand : MonoBehaviour
     {
         cards = new List<Card>();
         _handRect = GetComponent<RectTransform>();
+        handData.FullShuffle();
     }
 
     // Start is called before the first frame update
@@ -77,7 +79,7 @@ public class Hand : MonoBehaviour
         {
             float xOffset = (spacing * (float)(i + 1));
 
-            Vector3 xOffsetWorld = Camera.main.ScreenToWorldPoint(new Vector3(xOffset, 0, 1));
+            Vector3 xOffsetWorld = Camera.main.ScreenToWorldPoint(new Vector3(xOffset, 0, 2));
             
             cards[i].InitializeMove(xOffsetWorld.x);
         }
@@ -87,11 +89,20 @@ public class Hand : MonoBehaviour
     {
         if (VerifyCard(usedCard))
         {
+            handData.HandToDiscard(cards.IndexOf(usedCard));
             cards.Remove(usedCard);
-            usedCard.transform.parent = null;
+            usedCard.DestroySelf();
             currentHandSize--;
         }
 
+    }
+
+    public void ClearHand()
+    {
+        for(int i = 0; i < cards.Count; i++)
+        {
+            cards[i].playCard.Invoke(cards[i]);
+        }
     }
 
     public void SendDataToPreview(BaseCard cardData)

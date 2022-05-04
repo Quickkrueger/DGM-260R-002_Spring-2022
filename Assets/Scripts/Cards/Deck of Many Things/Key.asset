@@ -10,9 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9fdb34e41dbfe93448dcee4f1251a74e, type: 3}
-  m_Name: Test1
+  m_Name: Key
   m_EditorClassIdentifier: 
   cost: 0
-  graphic: {fileID: 2800000, guid: c72682f10bdf6f141aef339d68a91e9c, type: 3}
+  graphic: {fileID: 2800000, guid: 19427db58b2bfd74196e69dfd057192d, type: 3}
+  cardDescription: A rare or rarer magic weapon with which you are proficient appears
+    in your hands. The GM chooses the weapon.
   cardType: 0
   cardEffect: {fileID: 0}

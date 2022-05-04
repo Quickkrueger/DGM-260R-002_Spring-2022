@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fdb34e41dbfe93448dcee4f1251a74e, type: 3}
+  m_Name: Euryale
+  m_EditorClassIdentifier: 
+  cost: 0
+  graphic: {fileID: 2800000, guid: 1c8960fcffc30f946aef5484bdd68983, type: 3}
+  cardDescription: "The card's medusa-like visage curses you. You take a \u22122
+    penalty on saving throws while cursed in this way. Only a god or the magic of
+    The Fates card can end this curse."
+  cardType: 0
+  cardEffect: {fileID: 0}

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fdb34e41dbfe93448dcee4f1251a74e, type: 3}
+  m_Name: Rogue
+  m_EditorClassIdentifier: 
+  cost: 0
+  graphic: {fileID: 2800000, guid: 3b6bcd7302a40734f83ca493bada660e, type: 3}
+  cardDescription: A nonplayer character of the GM's choice becomes hostile toward
+    you. The identity of your new enemy isn't known until the NPC or someone else
+    reveals it. Nothing less than a wish spell or divine intervention can end the
+    NPC's hostility toward you.
+  cardType: 0
+  cardEffect: {fileID: 0}

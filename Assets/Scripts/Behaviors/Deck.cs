@@ -5,6 +5,7 @@ using UnityEngine;
 public class Deck : MonoBehaviour
 {
     public DeckData deckData;
+    public IntData handBaseSize;
     public IntData handLimit;
 
     public TransformEvent DrawCardEvent;
@@ -16,7 +17,7 @@ public class Deck : MonoBehaviour
 
     public void DrawHand()
     {
-        for (int i = 0; i < handLimit.num; i++)
+        for (int i = 0; i < handBaseSize.num; i++)
         {
             DrawCard();
         }
@@ -24,7 +25,7 @@ public class Deck : MonoBehaviour
 
     public void DrawCard()
     {
-        if (deckData.GetDeckCount() > 0)
+        if (deckData.GetDeckCount() > 0 && deckData.GetHandCount() < handLimit.num)
         {
             deckData.DeckToHand(0);
             DrawCardEvent.Invoke(transform);

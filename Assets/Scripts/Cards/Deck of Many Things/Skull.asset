@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fdb34e41dbfe93448dcee4f1251a74e, type: 3}
+  m_Name: Skull
+  m_EditorClassIdentifier: 
+  cost: 0
+  graphic: {fileID: 2800000, guid: 52e4a5ab16d5c2f478a6a91786fe054d, type: 3}
+  cardDescription: You summon an avatar of death--a ghostly humanoid skeleton clad
+    in a tattered black robe and carrying a spectral scythe. It appears in a space
+    of the GM's choice within 10 feet of you and attacks you, warning all others
+    that you must win the battle alone. The avatar fights until you die or it drops
+    to 0 hit points, whereupon it disappears. If anyone tries to help you, the helper
+    summons its own avatar of death. A creature slain by an avatar of death can't
+    be restored to life.
+  cardType: 0
+  cardEffect: {fileID: 0}
